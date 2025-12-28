@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -41,6 +41,16 @@
     --ring: 196 100% 47%;
 
     --radius: 0.75rem;
+
+    /* Tool card colors */
+    --tool-cyan: 180 100% 45%;
+    --tool-blue: 220 90% 56%;
+    --tool-purple: 270 70% 60%;
+    --tool-pink: 330 80% 60%;
+    --tool-red: 0 85% 60%;
+    --tool-orange: 25 95% 53%;
+    --tool-yellow: 45 100% 51%;
+    --tool-green: 145 80% 42%;
 
     /* Custom palette colors */
     --palette-1: 196 100% 47%;
@@ -123,12 +133,12 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-family: 'Plus Jakarta Sans', 'Space Grotesk', system-ui, sans-serif;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Space Grotesk', system-ui, sans-serif;
-    @apply font-semibold tracking-tight;
+    font-family: 'Plus Jakarta Sans', 'Space Grotesk', system-ui, sans-serif;
+    @apply font-bold tracking-tight;
   }
 }
 
@@ -182,6 +192,30 @@
 
   .kbd {
     @apply inline-flex items-center justify-center px-2 py-1 text-xs font-medium rounded border border-border bg-muted text-muted-foreground;
+  }
+
+  /* Tool menu colors */
+  .tool-cyan { color: hsl(var(--tool-cyan)); }
+  .tool-blue { color: hsl(var(--tool-blue)); }
+  .tool-purple { color: hsl(var(--tool-purple)); }
+  .tool-pink { color: hsl(var(--tool-pink)); }
+  .tool-red { color: hsl(var(--tool-red)); }
+  .tool-orange { color: hsl(var(--tool-orange)); }
+  .tool-yellow { color: hsl(var(--tool-yellow)); }
+  .tool-green { color: hsl(var(--tool-green)); }
+
+  .bg-tool-cyan { background-color: hsl(var(--tool-cyan) / 0.1); }
+  .bg-tool-blue { background-color: hsl(var(--tool-blue) / 0.1); }
+  .bg-tool-purple { background-color: hsl(var(--tool-purple) / 0.1); }
+  .bg-tool-pink { background-color: hsl(var(--tool-pink) / 0.1); }
+
+  .tool-card {
+    @apply rounded-2xl p-6 transition-all duration-300;
+  }
+
+  .tool-card:hover {
+    @apply -translate-y-1;
+    box-shadow: var(--shadow-lg);
   }
 }
 
