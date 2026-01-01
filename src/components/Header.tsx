@@ -8,10 +8,12 @@ import {
   ChevronDown,
   Menu,
   X,
-  User
+  User,
+  Eye
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import ThemeToggle from './ThemeToggle';
 
 const tools = [
   {
@@ -55,6 +57,13 @@ const tools = [
     href: '/generator',
     colorClass: 'text-tool-green',
     bgClass: 'bg-tool-green/10',
+  },
+  {
+    name: 'Color Blindness Simulator',
+    description: 'Preview how colors appear to colorblind users.',
+    href: '/color-blindness',
+    colorClass: 'text-tool-red',
+    bgClass: 'bg-tool-red/10',
   },
 ];
 
@@ -177,6 +186,8 @@ const Header = () => {
                 <ChevronDown className="h-4 w-4" />
               )}
             </Button>
+
+            <ThemeToggle />
 
             <Link to="/generator">
               <Button variant={isGenerator ? 'outline' : 'default'} size="sm" className="gap-2 font-semibold">
