@@ -6,16 +6,12 @@ import {
   Sparkles, 
   ChevronUp, 
   ChevronDown,
-  Wand2,
-  Search,
-  Image,
-  SlidersHorizontal,
-  Eye,
-  Pipette,
-  Contrast,
-  Layers
+  Menu,
+  X,
+  User
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
 const tools = [
   {
@@ -35,37 +31,23 @@ const tools = [
   {
     name: 'Image Picker',
     description: 'Extract beautiful colors from any image with ease.',
-    href: '/generator',
+    href: '/image-picker',
     colorClass: 'text-tool-pink',
     bgClass: 'bg-tool-pink/10',
   },
   {
     name: 'Contrast Checker',
     description: 'Ensure your designs meet accessibility standards.',
-    href: '/generator',
+    href: '/contrast-checker',
     colorClass: 'text-tool-orange',
     bgClass: 'bg-tool-orange/10',
   },
   {
-    name: 'Color Picker',
-    description: 'Get useful info about any color like meaning and variations.',
-    href: '/generator',
-    colorClass: 'text-tool-yellow',
-    bgClass: 'bg-tool-yellow/10',
-  },
-  {
     name: 'Gradient Maker',
     description: 'Create beautiful gradients for your designs.',
-    href: '/generator',
+    href: '/gradient-maker',
     colorClass: 'text-tool-purple',
     bgClass: 'bg-tool-purple/10',
-  },
-  {
-    name: 'Palette Visualizer',
-    description: 'Check your colors on real designs in real-time.',
-    href: '/generator',
-    colorClass: 'text-tool-red',
-    bgClass: 'bg-tool-red/10',
   },
   {
     name: 'Shade Generator',
@@ -76,10 +58,18 @@ const tools = [
   },
 ];
 
+const navLinks = [
+  { name: 'Home', href: '/' },
+  { name: 'Generator', href: '/generator' },
+  { name: 'Explore', href: '/explore' },
+  { name: 'About Developer', href: '/about' },
+];
+
 const Header = () => {
   const location = useLocation();
   const isGenerator = location.pathname === '/generator';
   const [toolsOpen, setToolsOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
     <>
@@ -92,6 +82,63 @@ const Header = () => {
         }`}
       >
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+          {/* Mobile Menu Button */}
+          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="md:hidden">
+                <Menu className="h-6 w-6" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-80 p-0">
+              <div className="p-6 border-b border-border">
+                <Link to="/" className="flex items-center gap-2" onClick={() => setMobileOpen(false)}>
+                  <Palette className="h-7 w-7 text-primary" />
+                  <span className="text-xl font-extrabold text-gradient">color</span>
+                </Link>
+              </div>
+              
+              {/* Mobile Nav Links */}
+              <nav className="p-4">
+                <div className="space-y-1">
+                  {navLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      to={link.href}
+                      onClick={() => setMobileOpen(false)}
+                      className={`flex items-center gap-3 px-4 py-3 rounded-lg font-semibold transition-colors ${
+                        location.pathname === link.href
+                          ? 'bg-primary text-primary-foreground'
+                          : 'hover:bg-secondary'
+                      }`}
+                    >
+                      {link.name}
+                    </Link>
+                  ))}
+                </div>
+                
+                {/* Mobile Tools */}
+                <div className="mt-6 pt-6 border-t border-border">
+                  <p className="px-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">
+                    Tools
+                  </p>
+                  <div className="space-y-1">
+                    {tools.map((tool) => (
+                      <Link
+                        key={tool.name}
+                        to={tool.href}
+                        onClick={() => setMobileOpen(false)}
+                        className={`block px-4 py-3 rounded-lg ${tool.bgClass} transition-colors`}
+                      >
+                        <span className={`font-bold ${tool.colorClass}`}>{tool.name}</span>
+                        <p className="text-xs text-muted-foreground mt-0.5">{tool.description}</p>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </nav>
+            </SheetContent>
+          </Sheet>
+
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
             <motion.div
@@ -105,20 +152,22 @@ const Header = () => {
             </span>
           </Link>
 
-          {/* Navigation */}
+          {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-1">
-            <NavLink to="/" current={location.pathname}>Home</NavLink>
-            <NavLink to="/generator" current={location.pathname}>Generator</NavLink>
-            <NavLink to="/explore" current={location.pathname}>Explore</NavLink>
+            {navLinks.map((link) => (
+              <NavLink key={link.href} to={link.href} current={location.pathname}>
+                {link.name}
+              </NavLink>
+            ))}
           </nav>
 
           {/* Tools & CTA */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             {/* Tools Dropdown */}
             <Button
               variant="outline"
               size="sm"
-              className="gap-2 font-semibold"
+              className="gap-1 sm:gap-2 font-semibold hidden sm:flex"
               onClick={() => setToolsOpen(!toolsOpen)}
             >
               Tools
@@ -161,7 +210,7 @@ const Header = () => {
               className="fixed top-16 left-0 right-0 z-50 bg-background border-b border-border shadow-xl"
             >
               <div className="container mx-auto px-4 py-8">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {tools.map((tool) => (
                     <Link
                       key={tool.name}
@@ -169,7 +218,7 @@ const Header = () => {
                       onClick={() => setToolsOpen(false)}
                       className={`group p-4 rounded-xl ${tool.bgClass} hover:scale-[1.02] transition-all duration-200`}
                     >
-                      <h3 className={`text-xl font-extrabold mb-2 ${tool.colorClass}`}>
+                      <h3 className={`text-lg sm:text-xl font-extrabold mb-1 ${tool.colorClass}`}>
                         {tool.name}
                       </h3>
                       <p className="text-sm text-muted-foreground leading-relaxed">
