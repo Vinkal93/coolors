@@ -153,6 +153,11 @@
     background-image: var(--gradient-hero);
   }
 
+  /* Override container padding for mobile */
+  .container {
+    @apply px-3 sm:px-4;
+  }
+
   .hover-lift {
     @apply transition-all duration-300 ease-out;
   }
@@ -215,7 +220,7 @@
   .bg-tool-pink { background-color: hsl(var(--tool-pink) / 0.1); }
 
   .tool-card {
-    @apply rounded-2xl p-6 transition-all duration-300;
+    @apply rounded-2xl p-4 sm:p-6 transition-all duration-300;
   }
 
   .tool-card:hover {
