@@ -129,6 +129,8 @@
 @layer base {
   * {
     @apply border-border transition-colors duration-200;
+    cursor: default;
+    caret-color: hsl(var(--foreground));
   }
 
   html {
@@ -139,6 +141,15 @@
     @apply bg-background text-foreground antialiased;
     font-family: 'Plus Jakarta Sans', 'Space Grotesk', system-ui, sans-serif;
     transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  input, textarea, [contenteditable] {
+    cursor: text;
+    caret-color: hsl(var(--primary));
+  }
+
+  button, a, [role="button"] {
+    cursor: pointer;
   }
 
   h1, h2, h3, h4, h5, h6 {
