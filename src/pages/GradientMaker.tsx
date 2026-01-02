@@ -14,20 +14,76 @@ interface GradientStop {
   position: number;
 }
 
-const presetGradients = [
-  { name: 'Sunset', colors: ['#FF512F', '#F09819'] },
-  { name: 'Ocean', colors: ['#2193B0', '#6DD5ED'] },
-  { name: 'Purple Haze', colors: ['#7303C0', '#EC38BC', '#FDEFF9'] },
-  { name: 'Emerald', colors: ['#11998E', '#38EF7D'] },
-  { name: 'Cherry', colors: ['#EB3349', '#F45C43'] },
-  { name: 'Midnight', colors: ['#0F2027', '#203A43', '#2C5364'] },
-  { name: 'Peach', colors: ['#FFB88C', '#DE6262'] },
-  { name: 'Sky', colors: ['#076585', '#FFF'] },
-  { name: 'Fire', colors: ['#F12711', '#F5AF19'] },
-  { name: 'Lavender', colors: ['#C471F5', '#FA71CD'] },
-  { name: 'Royal', colors: ['#141E30', '#243B55'] },
-  { name: 'Mango', colors: ['#FFE259', '#FFA751'] },
-];
+const gradientCategories = {
+  sunset: {
+    name: '🌅 Sunset',
+    gradients: [
+      { name: 'Sunset Blaze', colors: ['#FF512F', '#F09819'] },
+      { name: 'Golden Hour', colors: ['#F37335', '#FDC830'] },
+      { name: 'Burning Orange', colors: ['#FF416C', '#FF4B2B'] },
+      { name: 'Desert Dusk', colors: ['#FFB347', '#FFCC33'] },
+      { name: 'Coral Sunset', colors: ['#FF9966', '#FF5E62'] },
+      { name: 'Mango Tango', colors: ['#FFE259', '#FFA751'] },
+    ]
+  },
+  ocean: {
+    name: '🌊 Ocean',
+    gradients: [
+      { name: 'Deep Sea', colors: ['#2193B0', '#6DD5ED'] },
+      { name: 'Pacific Dream', colors: ['#0093E9', '#80D0C7'] },
+      { name: 'Aqua Marine', colors: ['#1A2980', '#26D0CE'] },
+      { name: 'Sea Breeze', colors: ['#00C6FF', '#0072FF'] },
+      { name: 'Tidal Wave', colors: ['#667DB6', '#0082C8', '#0082C8', '#667DB6'] },
+      { name: 'Ocean Blue', colors: ['#2E3192', '#1BFFFF'] },
+    ]
+  },
+  forest: {
+    name: '🌲 Forest',
+    gradients: [
+      { name: 'Forest Mist', colors: ['#11998E', '#38EF7D'] },
+      { name: 'Emerald Lake', colors: ['#1D976C', '#93F9B9'] },
+      { name: 'Deep Forest', colors: ['#0F2027', '#203A43', '#2C5364'] },
+      { name: 'Pine Green', colors: ['#134E5E', '#71B280'] },
+      { name: 'Moss', colors: ['#56AB2F', '#A8E063'] },
+      { name: 'Jungle', colors: ['#5A3F37', '#2C7744'] },
+    ]
+  },
+  purple: {
+    name: '💜 Purple',
+    gradients: [
+      { name: 'Purple Haze', colors: ['#7303C0', '#EC38BC', '#FDEFF9'] },
+      { name: 'Lavender', colors: ['#C471F5', '#FA71CD'] },
+      { name: 'Violet Dream', colors: ['#4776E6', '#8E54E9'] },
+      { name: 'Royal Purple', colors: ['#141E30', '#243B55'] },
+      { name: 'Ultra Violet', colors: ['#654EA3', '#EAAFC8'] },
+      { name: 'Mystic', colors: ['#757F9A', '#D7DDE8'] },
+    ]
+  },
+  fire: {
+    name: '🔥 Fire',
+    gradients: [
+      { name: 'Fire Blaze', colors: ['#F12711', '#F5AF19'] },
+      { name: 'Cherry', colors: ['#EB3349', '#F45C43'] },
+      { name: 'Hot Flame', colors: ['#F7971E', '#FFD200'] },
+      { name: 'Lava', colors: ['#FF0000', '#FDCF58'] },
+      { name: 'Ember', colors: ['#FF512F', '#DD2476'] },
+      { name: 'Phoenix', colors: ['#F83600', '#F9D423'] },
+    ]
+  },
+  night: {
+    name: '🌙 Night',
+    gradients: [
+      { name: 'Midnight', colors: ['#0F2027', '#203A43', '#2C5364'] },
+      { name: 'Night Sky', colors: ['#141E30', '#243B55'] },
+      { name: 'Starry Night', colors: ['#000428', '#004E92'] },
+      { name: 'Dark Ocean', colors: ['#373B44', '#4286F4'] },
+      { name: 'Eclipse', colors: ['#1F1C2C', '#928DAB'] },
+      { name: 'Cosmic', colors: ['#0F0C29', '#302B63', '#24243E'] },
+    ]
+  },
+};
+
+const allGradients = Object.values(gradientCategories).flatMap(cat => cat.gradients);
 
 const GradientMaker = () => {
   const [stops, setStops] = useState<GradientStop[]>([
@@ -237,32 +293,38 @@ const GradientMaker = () => {
             </motion.div>
           </div>
 
-          {/* Preset Gradients */}
+          {/* Preset Gradients by Category */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="mt-12"
+            className="mt-12 space-y-8"
           >
-            <h3 className="text-xl font-bold mb-6 text-center">Preset Gradients</h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
-              {presetGradients.map((preset) => (
-                <button
-                  key={preset.name}
-                  onClick={() => loadPreset(preset.colors)}
-                  className="group relative h-24 rounded-xl overflow-hidden hover-lift"
-                  style={{ 
-                    background: `linear-gradient(135deg, ${preset.colors.join(', ')})`
-                  }}
-                >
-                  <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/20 transition-colors flex items-center justify-center">
-                    <span className="text-white font-semibold text-sm opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-lg">
-                      {preset.name}
-                    </span>
-                  </div>
-                </button>
-              ))}
-            </div>
+            <h3 className="text-xl sm:text-2xl font-bold text-center">Preset Gradients</h3>
+            
+            {Object.entries(gradientCategories).map(([key, category]) => (
+              <div key={key}>
+                <h4 className="text-lg font-bold mb-4">{category.name}</h4>
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
+                  {category.gradients.map((preset) => (
+                    <button
+                      key={preset.name}
+                      onClick={() => loadPreset(preset.colors)}
+                      className="group relative h-20 sm:h-24 rounded-xl overflow-hidden hover-lift"
+                      style={{ 
+                        background: `linear-gradient(135deg, ${preset.colors.join(', ')})`
+                      }}
+                    >
+                      <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/20 transition-colors flex items-center justify-center">
+                        <span className="text-white font-semibold text-xs sm:text-sm opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-lg text-center px-2">
+                          {preset.name}
+                        </span>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))}
           </motion.div>
         </div>
       </main>

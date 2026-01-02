@@ -220,19 +220,19 @@ const Header = () => {
               transition={{ duration: 0.2 }}
               className="fixed top-16 left-0 right-0 z-50 bg-background border-b border-border shadow-xl"
             >
-              <div className="container mx-auto px-4 py-8">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="container mx-auto py-6 sm:py-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
                   {tools.map((tool) => (
                     <Link
                       key={tool.name}
                       to={tool.href}
                       onClick={() => setToolsOpen(false)}
-                      className={`group p-4 rounded-xl ${tool.bgClass} hover:scale-[1.02] transition-all duration-200`}
+                      className="group p-3 sm:p-4 rounded-xl hover:bg-secondary/50 transition-all duration-200"
                     >
-                      <h3 className={`text-lg sm:text-xl font-extrabold mb-1 ${tool.colorClass}`}>
+                      <h3 className={`text-base sm:text-lg font-extrabold mb-0.5 ${tool.colorClass}`}>
                         {tool.name}
                       </h3>
-                      <p className="text-sm text-muted-foreground leading-relaxed">
+                      <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
                         {tool.description}
                       </p>
                     </Link>
