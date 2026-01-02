@@ -115,18 +115,18 @@ const GeneratorToolbar = () => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, x: 20 }}
-      animate={{ opacity: 1, x: 0 }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.3 }}
-      className="fixed right-6 top-1/2 -translate-y-1/2 z-40"
+      className="fixed bottom-4 left-1/2 -translate-x-1/2 sm:bottom-auto sm:left-auto sm:translate-x-0 sm:right-4 sm:top-1/2 sm:-translate-y-1/2 z-40"
     >
-      <div className="glass rounded-2xl p-2 flex flex-col gap-2 shadow-lg">
+      <div className="glass rounded-2xl p-2 flex flex-row sm:flex-col gap-2 shadow-lg">
         {/* Generate */}
         <Button
           variant="ghost"
           size="icon"
           onClick={handleGenerate}
-          className="hover:bg-primary/10 hover:text-primary"
+          className="hover:bg-primary/10 hover:text-primary h-10 w-10 sm:h-10 sm:w-10"
           title="Generate new palette (Space)"
         >
           <RefreshCw className="h-5 w-5" />
@@ -138,7 +138,7 @@ const GeneratorToolbar = () => {
           size="icon"
           onClick={handleSave}
           disabled={saving}
-          className="hover:bg-accent/20 hover:text-accent"
+          className="hover:bg-accent/20 hover:text-accent h-10 w-10 sm:h-10 sm:w-10"
           title="Save palette"
         >
           <AnimatePresence mode="wait">
@@ -179,13 +179,13 @@ const GeneratorToolbar = () => {
             <Button
               variant="ghost"
               size="icon"
-              className="hover:bg-secondary"
+              className="hover:bg-secondary h-10 w-10 sm:h-10 sm:w-10"
               title="Export"
             >
               <Download className="h-5 w-5" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent side="left" align="center" className="w-40">
+          <DropdownMenuContent side="top" align="center" className="w-40 sm:side-left bg-popover">
             <DropdownMenuItem onClick={handleExportCSS} className="gap-2">
               <Code className="h-4 w-4" />
               Export as CSS
@@ -202,7 +202,7 @@ const GeneratorToolbar = () => {
           variant="ghost"
           size="icon"
           onClick={handleShare}
-          className="hover:bg-secondary"
+          className="hover:bg-secondary h-10 w-10 sm:h-10 sm:w-10"
           title="Share palette"
         >
           <Share2 className="h-5 w-5" />

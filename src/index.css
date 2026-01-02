@@ -183,11 +183,11 @@
   }
 
   .color-strip {
-    @apply flex h-full w-full;
+    @apply flex flex-row h-full w-full;
   }
 
   .color-strip-item {
-    @apply flex-1 relative flex flex-col items-center justify-end pb-8 transition-all duration-300;
+    @apply flex-1 min-w-[60px] relative flex flex-col items-center justify-end pb-4 sm:pb-8 transition-all duration-300;
   }
 
   .color-strip-item:hover {
