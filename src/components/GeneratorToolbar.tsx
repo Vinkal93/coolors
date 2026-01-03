@@ -118,9 +118,9 @@ const GeneratorToolbar = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.3 }}
-      className="fixed bottom-4 left-1/2 -translate-x-1/2 sm:bottom-auto sm:left-auto sm:translate-x-0 sm:right-4 sm:top-1/2 sm:-translate-y-1/2 z-40"
+      className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40"
     >
-      <div className="glass rounded-2xl p-2 flex flex-row sm:flex-col gap-2 shadow-lg">
+      <div className="glass rounded-full px-3 py-2 flex flex-row gap-1 shadow-lg">
         {/* Generate */}
         <Button
           variant="ghost"
