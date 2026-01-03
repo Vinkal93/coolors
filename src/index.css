@@ -195,12 +195,23 @@
   }
 
   .palette-card {
-    @apply rounded-xl overflow-hidden hover-lift cursor-pointer;
+    @apply rounded-xl overflow-hidden cursor-pointer relative;
     box-shadow: var(--shadow-md);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
 
   .palette-card:hover {
+    transform: translateY(-4px);
     box-shadow: var(--shadow-xl);
+  }
+
+  /* Prevent hover flicker by ensuring stable pointer events */
+  .palette-card-overlay {
+    pointer-events: none;
+  }
+
+  .palette-card:hover .palette-card-overlay {
+    pointer-events: auto;
   }
 
   .tooltip-fade {
