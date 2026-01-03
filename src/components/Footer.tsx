@@ -5,10 +5,10 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const footerLinks = [
-    { name: 'Terms', href: '#' },
-    { name: 'Privacy', href: '#' },
+    { name: 'Terms', href: '/terms' },
+    { name: 'Privacy', href: '/privacy' },
+    { name: 'Contact', href: '/contact' },
     { name: 'About', href: '/about' },
-    { name: 'Tools', href: '/generator' },
     { name: 'Explore', href: '/explore' },
   ];
 
@@ -19,23 +19,13 @@ const Footer = () => {
           {/* Links Row */}
           <nav className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
             {footerLinks.map((link) => (
-              link.href.startsWith('/') ? (
-                <Link 
-                  key={link.name}
-                  to={link.href} 
-                  className="hover:text-foreground transition-colors"
-                >
-                  {link.name}
-                </Link>
-              ) : (
-                <a 
-                  key={link.name}
-                  href={link.href} 
-                  className="hover:text-foreground transition-colors"
-                >
-                  {link.name}
-                </a>
-              )
+              <Link 
+                key={link.name}
+                to={link.href} 
+                className="hover:text-foreground transition-colors"
+              >
+                {link.name}
+              </Link>
             ))}
           </nav>
           
