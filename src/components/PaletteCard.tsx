@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Heart, Trash2, Eye, ExternalLink, Maximize2, Copy, Download, MoreHorizontal, Palette } from 'lucide-react';
 import { SavedPalette, usePaletteStore } from '@/store/paletteStore';
@@ -11,6 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import ColorInfoModal from './ColorInfoModal';
 
 interface PaletteCardProps {
   palette: SavedPalette;
@@ -19,8 +21,13 @@ interface PaletteCardProps {
 }
 
 const PaletteCard = ({ palette, index = 0, showDelete = false }: PaletteCardProps) => {
-  const { loadPalette, deletePalette, savePalette } = usePaletteStore();
+  const { loadPalette, deletePalette, likePalette, getLikes } = usePaletteStore();
   const navigate = useNavigate();
+  const [selectedColor, setSelectedColor] = useState<string | null>(null);
+  
+  // Create a unique key for likes based on colors
+  const paletteKey = palette.colors.join('-');
+  const likes = getLikes(paletteKey);
 
   const handleOpenInGenerator = (e?: React.MouseEvent) => {
     e?.stopPropagation();
@@ -73,10 +80,15 @@ const PaletteCard = ({ palette, index = 0, showDelete = false }: PaletteCardProp
     toast.success('JSON exported to clipboard');
   };
 
-  const handleSave = (e: React.MouseEvent) => {
+  const handleLike = (e: React.MouseEvent) => {
     e.stopPropagation();
-    savePalette(palette.name || 'Saved Palette');
-    toast.success('Palette saved');
+    likePalette(paletteKey);
+    toast.success('Palette liked!');
+  };
+
+  const handleColorClick = (e: React.MouseEvent, color: string) => {
+    e.stopPropagation();
+    setSelectedColor(color);
   };
 
   return (
@@ -88,14 +100,15 @@ const PaletteCard = ({ palette, index = 0, showDelete = false }: PaletteCardProp
     >
       {/* Color strips */}
       <div 
-        className="flex h-24 sm:h-28 cursor-pointer"
-        onClick={() => handleOpenInGenerator()}
+        className="flex h-24 sm:h-28"
       >
         {palette.colors.map((color, i) => (
           <div
             key={i}
-            className="flex-1 first:rounded-tl-xl last:rounded-tr-xl transition-all duration-200"
+            className="flex-1 first:rounded-tl-xl last:rounded-tr-xl transition-all duration-200 cursor-pointer hover:scale-y-105 hover:z-10"
             style={{ backgroundColor: color }}
+            onClick={(e) => handleColorClick(e, color)}
+            title={`Click to view ${color} details`}
           />
         ))}
       </div>
@@ -110,14 +123,15 @@ const PaletteCard = ({ palette, index = 0, showDelete = false }: PaletteCardProp
         </p>
         
         <div className="flex items-center gap-1">
-          {/* Like button */}
+          {/* Like button with counter */}
           <Button
             variant="ghost"
-            size="icon"
-            className="h-8 w-8 text-muted-foreground hover:text-accent"
-            onClick={handleSave}
+            size="sm"
+            className="h-8 px-2 text-muted-foreground hover:text-red-500 gap-1"
+            onClick={handleLike}
           >
             <Heart className="h-4 w-4" />
+            {likes > 0 && <span className="text-xs font-medium">{likes}</span>}
           </Button>
           
           {/* Quick view button */}
@@ -199,6 +213,12 @@ const PaletteCard = ({ palette, index = 0, showDelete = false }: PaletteCardProp
           </DropdownMenu>
         </div>
       </div>
+      {/* Color Info Modal */}
+      <ColorInfoModal
+        color={selectedColor || '#000000'}
+        open={!!selectedColor}
+        onOpenChange={(open) => !open && setSelectedColor(null)}
+      />
     </motion.div>
   );
 };
