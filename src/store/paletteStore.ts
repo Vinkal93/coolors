@@ -12,18 +12,22 @@ export interface SavedPalette {
   colors: string[];
   savedAt: number;
   name?: string;
+  likes?: number;
 }
 
 interface PaletteStore {
   colors: Color[];
   savedPalettes: SavedPalette[];
   recentPalettes: SavedPalette[];
+  paletteLikes: Record<string, number>;
   generateNewPalette: () => void;
   toggleLock: (id: string) => void;
   updateColor: (id: string, hex: string) => void;
   savePalette: (name?: string) => void;
   deletePalette: (id: string) => void;
   loadPalette: (colors: string[]) => void;
+  likePalette: (paletteKey: string) => void;
+  getLikes: (paletteKey: string) => number;
   cleanExpiredPalettes: () => void;
 }
 
@@ -76,6 +80,7 @@ export const usePaletteStore = create<PaletteStore>()(
       colors: generateInitialColors(),
       savedPalettes: [],
       recentPalettes: [],
+      paletteLikes: {},
 
       generateNewPalette: () => {
         const currentColors = get().colors;
@@ -147,6 +152,16 @@ export const usePaletteStore = create<PaletteStore>()(
         set({ colors: newColors });
       },
 
+      likePalette: (paletteKey: string) => {
+        const currentLikes = get().paletteLikes;
+        const newLikes = (currentLikes[paletteKey] || 0) + 1;
+        set({ paletteLikes: { ...currentLikes, [paletteKey]: newLikes } });
+      },
+
+      getLikes: (paletteKey: string) => {
+        return get().paletteLikes[paletteKey] || 0;
+      },
+
       cleanExpiredPalettes: () => {
         const now = Date.now();
         const recentPalettes = get().recentPalettes.filter(
@@ -160,6 +175,7 @@ export const usePaletteStore = create<PaletteStore>()(
       partialize: (state) => ({
         savedPalettes: state.savedPalettes,
         recentPalettes: state.recentPalettes,
+        paletteLikes: state.paletteLikes,
       }),
     }
   )
