@@ -13,6 +13,7 @@ import ContrastChecker from "./pages/ContrastChecker";
 import ImagePicker from "./pages/ImagePicker";
 import GradientMaker from "./pages/GradientMaker";
 import ColorBlindnessSimulator from "./pages/ColorBlindnessSimulator";
+import FontGenerator from "./pages/FontGenerator";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import Contact from "./pages/Contact";
@@ -37,6 +38,7 @@ const App = () => (
             <Route path="/image-picker" element={<ImagePicker />} />
             <Route path="/gradient-maker" element={<GradientMaker />} />
             <Route path="/color-blindness" element={<ColorBlindnessSimulator />} />
+            <Route path="/font-generator" element={<FontGenerator />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/contact" element={<Contact />} />
