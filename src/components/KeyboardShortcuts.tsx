@@ -13,7 +13,7 @@ const KeyboardShortcuts = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.5 }}
-      className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 max-w-[calc(100vw-2rem)]"
+      className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 max-w-[calc(100vw-2rem)] hidden md:block"
     >
       <div className="glass rounded-full px-3 sm:px-6 py-2 sm:py-3 flex items-center gap-2 sm:gap-6 shadow-lg">
         <div className="flex items-center gap-1.5 sm:gap-2 text-muted-foreground">

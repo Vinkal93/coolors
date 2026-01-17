@@ -8,7 +8,8 @@ import {
   Code, 
   Image as ImageIcon,
   Check,
-  Loader2
+  Loader2,
+  Clock
 } from 'lucide-react';
 import { usePaletteStore } from '@/store/paletteStore';
 import { Button } from '@/components/ui/button';
@@ -19,11 +20,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { toast } from 'sonner';
+import PaletteHistory from './PaletteHistory';
 
 const GeneratorToolbar = () => {
   const { colors, generateNewPalette, savePalette } = usePaletteStore();
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
 
   const handleGenerate = () => {
     generateNewPalette();
@@ -197,6 +200,17 @@ const GeneratorToolbar = () => {
           </DropdownMenuContent>
         </DropdownMenu>
 
+        {/* History */}
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setShowHistory(true)}
+          className="hover:bg-secondary h-10 w-10 sm:h-10 sm:w-10"
+          title="Palette history"
+        >
+          <Clock className="h-5 w-5" />
+        </Button>
+
         {/* Share */}
         <Button
           variant="ghost"
@@ -208,6 +222,11 @@ const GeneratorToolbar = () => {
           <Share2 className="h-5 w-5" />
         </Button>
       </div>
+      
+      <PaletteHistory 
+        isOpen={showHistory}
+        onClose={() => setShowHistory(false)}
+      />
     </motion.div>
   );
 };

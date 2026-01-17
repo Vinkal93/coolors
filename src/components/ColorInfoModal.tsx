@@ -1,9 +1,10 @@
+import { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Copy, Check } from 'lucide-react';
+import { Copy, Check, Palette } from 'lucide-react';
 import { hexToRgb, hexToHsl, getColorName, getContrastColor } from '@/lib/colorUtils';
-import { useState } from 'react';
 import { toast } from 'sonner';
+import ShadeGenerator from './ShadeGenerator';
 
 interface ColorInfoModalProps {
   color: string;
@@ -54,7 +55,7 @@ const hexToCmykString = (hex: string): string => {
 
 const ColorInfoModal = ({ color, open, onOpenChange }: ColorInfoModalProps) => {
   const [copied, setCopied] = useState<string | null>(null);
-  
+  const [showShadeGenerator, setShowShadeGenerator] = useState(false);
   const rgb = hexToRgb(color);
   const hsl = hexToHsl(color);
   const cmyk = hexToCmyk(color);
@@ -152,7 +153,22 @@ const ColorInfoModal = ({ color, open, onOpenChange }: ColorInfoModalProps) => {
               </div>
             )}
           </div>
+          
+          {/* Generate Shades Button */}
+          <Button 
+            className="w-full"
+            onClick={() => setShowShadeGenerator(true)}
+          >
+            <Palette className="h-4 w-4 mr-2" />
+            Generate Shades
+          </Button>
         </div>
+        
+        <ShadeGenerator 
+          isOpen={showShadeGenerator}
+          onClose={() => setShowShadeGenerator(false)}
+          baseColor={color}
+        />
       </DialogContent>
     </Dialog>
   );
